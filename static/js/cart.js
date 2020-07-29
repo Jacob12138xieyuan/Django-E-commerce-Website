@@ -23,13 +23,14 @@ function addCookieItem(productId, action) {
     }
   }
   if (action == 'remove') {
-    cart[productId]['quantity'] + 1;
+    cart[productId]['quantity'] -= 1;
     if (cart[productId]['quantity'] < 1) {
       delete cart[productId];
     }
   }
   console.log('Cart: ', cart);
   document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/';
+  location.reload();
 }
 
 function updateUserOrder(productId, action) {

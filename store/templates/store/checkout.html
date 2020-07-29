@@ -84,8 +84,8 @@
         document.getElementById('payment-info').classList.remove('hidden')
     }
 
-    var shippingForm = document.getElementById('form')
-        shippingForm.addEventListener('submit', function(e){
+    var form = document.getElementById('form')
+        form.addEventListener('submit', function(e){
         e.preventDefault()
         document.getElementById('form-button').classList.add('hidden')
         document.getElementById('payment-info').classList.remove('hidden')
@@ -111,18 +111,19 @@
             'zipcode':null,
         }
 
-        // if(user != 'AnonymousUser'){
-        //     userFormData.name = shippingForm.name.value
-        //     userFormData.email = shippingForm.email
-        // }
-
-        if(shipping != 'False'){
-            shippingInfo.address = shippingForm.address.value
-            shippingInfo.city = shippingForm.city.value
-            shippingInfo.state = shippingForm.state.value
-            shippingInfo.zipcode = shippingForm.zipcode.value
+        if(user == 'AnonymousUser'){
+            userFormData.name = form.name.value
+            userFormData.email = form.email.value
         }
 
+        if(shipping != 'False'){
+            shippingInfo.address = form.address.value
+            shippingInfo.city = form.city.value
+            shippingInfo.state = form.state.value
+            shippingInfo.zipcode = form.zipcode.value
+        }
+
+        console.log('User', userFormData)
         var url = '/process_order/';
 
         fetch(url, {
@@ -143,6 +144,9 @@
             .then((data) => {
             console.log('Success order: ', data);
             alert('Transaction completed!');
+            cart = {}
+            document.cookie = 'cart=' + JSON.stringify(cart) + ';domain=;path=/';
+
             window.location.href = "{% url 'store' %}"
             });
     }
